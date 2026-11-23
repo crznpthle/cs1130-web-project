@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Assignment #4 – Simple Payroll</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+
+  <header class="pagehead">
+    <a class="back" href="index.html">← Back to Home</a>
+    <h1>Assignment #4 – Simple Payroll</h1>
+    <p>Add and delete employees in a payroll list</p>
+  </header>
+
+  <section class="card">
+    <h3>Add Employee</h3>
+    <div class="row">
+      <div>
+        <label for="empName">Employee Name</label>
+        <input type="text" id="empName" placeholder="e.g. Juan Dela Cruz">
+      </div>
+      <div>
+        <label for="daysWorked">Days Worked</label>
+        <input type="number" id="daysWorked" min="0" step="any" placeholder="e.g. 15">
+      </div>
+      <div>
+        <label for="dailyRate">Daily Rate (₱)</label>
+        <input type="number" id="dailyRate" min="0" step="any" placeholder="e.g. 600">
+      </div>
+      <div>
+        <label for="deduction">Deduction Amount (₱)</label>
+        <input type="number" id="deduction" min="0" step="any" placeholder="e.g. 500">
+      </div>
+    </div>
+    <button id="addBtn">Add Employee</button>
+    <div class="result" id="payMsg"></div>
+
+    <hr class="soft">
+
+    <h3>Payroll List</h3>
+    <div class="scroll">
+      <table id="payTable">
+        <thead>
+          <tr>
+            <th>No.</th><th>Employee Name</th><th>Days Worked</th><th>Daily Rate</th>
+            <th>Gross Pay</th><th>Deduction Amount</th><th>Net Pay</th>
+          </tr>
+        </thead>
+        <tbody id="payBody"></tbody>
+      </table>
+    </div>
+    <p class="note">Gross Pay = Days Worked × Daily Rate &nbsp;•&nbsp; Net Pay = Gross Pay − Deduction Amount</p>
+
+    <hr class="soft">
+
+    <h3>Delete Employee</h3>
+    <label for="delLine">Line Number to delete</label>
+    <input type="number" id="delLine" min="1" step="1" placeholder="e.g. 1">
+    <button id="delBtn" class="secondary">Delete</button>
+  </section>
+
+</div>
+
+<script src="common.js"></script>
+<script>
+  const payroll = [];   // the payroll list
+
+  const renderPayroll = () => {
+    $("payBody").innerHTML = payroll.length === 0
+      ? `<tr><td colspan="7" style="text-align:center;color:#7d6f74;">No employees yet.</td></tr>`
+      : payroll.map((emp, index) => `
+          <tr>
+            <td>${index + 1}</td>
+            <td>${escapeHtml(emp.name)}</td>
+            <td>${emp.days}</td>
+            <td class="amt">${peso(emp.rate)}</td>
+            <td class="amt">${peso(emp.gross)}</td>
+            <td class="amt">${peso(emp.deduction)}</td>
+            <td class="amt">${peso(emp.net)}</td>
+          </tr>`).join("");
+  };
+
+  $("addBtn").addEventListener("click", () => {
+    const name = $("empName").value.trim();
+    const daysRaw = $("daysWorked").value;
+    const rateRaw = $("dailyRate").value;
+    const dedRaw = $("deduction").value;
+    const days = Number(daysRaw);
+    const rate = Number(rateRaw);
+    const deduction = Number(dedRaw);
+
+    if (!name || daysRaw === "" || rateRaw === "" || dedRaw === "" || days < 0 || rate < 0 || deduction < 0) {
+      return show("payMsg", "Please fill in all fields with valid (non-negative) values.", true);
+    }
+
+    const gross = days * rate;        // Gross Pay = Days Worked * Daily Rate
+    const net = gross - deduction;    // Net Pay = Gross Pay - Deduction Amount
+    payroll.push({ name, days, rate, gross, deduction, net });
+    renderPayroll();
+    show("payMsg", `Added <strong>${escapeHtml(name)}</strong> as line ${payroll.length}.`);
+
+    ["empName", "daysWorked", "dailyRate", "deduction"].forEach((id) => { $(id).value = ""; });
+    $("empName").focus();
+  });
+
+  $("delBtn").addEventListener("click", () => {
+    const line = Number($("delLine").value);
+    if (!Number.isInteger(line) || line < 1 || line > payroll.length) {
+      return show("payMsg", `Please enter a valid line number (1 to ${payroll.length}).`, true);
+    }
+    const [removed] = payroll.splice(line - 1, 1);
+    renderPayroll();   // table renumbers automatically
+    $("delLine").value = "";
+    show("payMsg", `Deleted line ${line} (<strong>${escapeHtml(removed.name)}</strong>).`);
+  });
+
+  renderPayroll();
+</script>
+</body>
+</html>

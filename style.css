@@ -1,0 +1,166 @@
+:root {
+  --burgundy: #6b1d2e;
+  --burgundy-2: #8e2f48;
+  --burgundy-dark: #4d1421;
+  --cream: #faf6f3;
+  --card: #ffffff;
+  --ink: #2a2024;
+  --muted: #7d6f74;
+  --line: #eadfdc;
+  --blush: #f5e9ea;
+  --ok: #3f6b4f;
+  --err: #a12a3a;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: "Inter", "Segoe UI", Roboto, Arial, sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+  line-height: 1.6;
+  padding-bottom: 5.5rem;
+}
+h1, h2, h3, .serif { font-family: "Playfair Display", Georgia, "Times New Roman", serif; font-weight: 600; }
+a { color: inherit; }
+.wrap { max-width: 980px; margin: 0 auto; padding: 1.25rem 1rem; display: grid; gap: 1.25rem; }
+
+/* ---------- top profile card ---------- */
+.topcard {
+  display: flex; align-items: center; gap: 1.25rem;
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: 22px; padding: 1.25rem 1.5rem;
+}
+.topcard img {
+  width: 96px; height: 96px; border-radius: 50%; object-fit: cover;
+  border: 3px solid var(--blush); flex-shrink: 0;
+}
+.topcard h1 { margin: 0; font-size: clamp(1.4rem, 4.5vw, 2.1rem); line-height: 1.2; }
+.topcard p { margin: .25rem 0 0; color: var(--muted); font-size: clamp(.9rem, 2.6vw, 1.05rem); }
+
+/* ---------- burgundy banner ---------- */
+.banner {
+  background: linear-gradient(135deg, var(--burgundy-dark), var(--burgundy) 55%, var(--burgundy-2));
+  color: #fff; border-radius: 26px; padding: 1.75rem;
+  display: grid; gap: 1.5rem; grid-template-columns: 1fr; align-items: center;
+}
+.monogram {
+  width: 130px; height: 130px; border-radius: 50%;
+  display: grid; place-items: center; margin: 0 auto;
+  background: #fff; color: var(--burgundy);
+  font-family: "Playfair Display", Georgia, serif; font-size: 2.4rem; letter-spacing: .05em;
+  box-shadow: 0 0 0 6px rgba(255,255,255,.18);
+}
+.details { list-style: none; margin: 0; padding: 0; display: grid; gap: .75rem; }
+.details li { display: flex; align-items: center; gap: .75rem; font-size: 1rem; word-break: break-word; }
+.details svg { width: 20px; height: 20px; flex-shrink: 0; stroke: #fff; fill: none; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.details a { text-decoration: none; border-bottom: 1px solid rgba(255,255,255,.7); }
+.banner-actions { display: grid; gap: .75rem; }
+.ghost {
+  display: block; text-align: center; text-decoration: none;
+  background: rgba(255,255,255,.14); color: #fff; font-weight: 600;
+  padding: .8rem 1.2rem; border-radius: 999px; border: 1px solid rgba(255,255,255,.25);
+}
+.ghost:hover { background: rgba(255,255,255,.26); }
+
+/* ---------- cards ---------- */
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 22px; padding: 1.5rem; }
+.card-title { display: flex; align-items: center; gap: .75rem; padding-bottom: 1rem; border-bottom: 1px solid var(--line); margin-bottom: 1.25rem; }
+.card-title .dot { width: 38px; height: 38px; border-radius: 50%; background: var(--burgundy); display: grid; place-items: center; }
+.card-title .dot svg { width: 18px; height: 18px; stroke: #fff; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.card-title h2 { margin: 0; font-size: 1.2rem; }
+.inner { border: 1px solid var(--line); border-radius: 16px; padding: 1.25rem; background: #fffdfc; }
+.inner h3 { margin: 0 0 .25rem; font-size: 1.1rem; color: var(--burgundy); }
+.inner .meta { color: var(--muted); font-size: .9rem; margin: 0 0 .75rem; }
+.inner p { margin: .6rem 0; }
+.inner ul { margin: .5rem 0 .75rem; padding-left: 1.2rem; }
+.inner li { margin: .3rem 0; }
+.inner li::marker { color: var(--burgundy); }
+
+/* ---------- assignment buttons ---------- */
+.lead { color: var(--muted); margin: 0 0 1.25rem; }
+.assign-grid { display: grid; gap: .9rem; grid-template-columns: 1fr; }
+.assign {
+  display: flex; align-items: center; gap: 1rem; text-decoration: none;
+  background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 1.1rem 1.25rem;
+  transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+}
+.assign:hover { transform: translateY(-3px); border-color: var(--burgundy); box-shadow: 0 10px 24px rgba(107,29,46,.12); }
+.assign .num {
+  width: 46px; height: 46px; border-radius: 50%; flex-shrink: 0;
+  background: var(--blush); color: var(--burgundy); display: grid; place-items: center;
+  font-family: "Playfair Display", Georgia, serif; font-size: 1.2rem; font-weight: 700;
+}
+.assign:hover .num { background: var(--burgundy); color: #fff; }
+.assign strong { display: block; font-size: 1.05rem; }
+.assign small { color: var(--muted); }
+.assign .arrow { margin-left: auto; color: var(--burgundy); font-size: 1.3rem; }
+.due { margin-top: 1.25rem; text-align: center; color: var(--burgundy); font-weight: 600; }
+
+/* ---------- bottom pill nav ---------- */
+.pills {
+  position: fixed; left: 50%; bottom: 1rem; transform: translateX(-50%);
+  display: flex; gap: .5rem; padding: .45rem; z-index: 20;
+  background: rgba(255,255,255,.92); backdrop-filter: blur(8px);
+  border: 1px solid var(--line); border-radius: 999px; box-shadow: 0 8px 24px rgba(0,0,0,.1);
+}
+.pills a {
+  text-decoration: none; background: var(--burgundy); color: #fff;
+  padding: .55rem 1.1rem; border-radius: 999px; font-size: .9rem; font-weight: 600; white-space: nowrap;
+}
+.pills a:hover { background: var(--burgundy-dark); }
+
+/* ---------- assignment pages ---------- */
+.pagehead {
+  background: linear-gradient(135deg, var(--burgundy-dark), var(--burgundy) 60%, var(--burgundy-2));
+  color: #fff; border-radius: 22px; padding: 1.5rem;
+}
+.pagehead .back {
+  display: inline-block; text-decoration: none; font-size: .9rem; font-weight: 600;
+  background: rgba(255,255,255,.16); padding: .4rem .9rem; border-radius: 999px; margin-bottom: .9rem;
+}
+.pagehead .back:hover { background: rgba(255,255,255,.28); }
+.pagehead h1 { margin: 0; font-size: clamp(1.5rem, 5vw, 2.2rem); }
+.pagehead p { margin: .25rem 0 0; opacity: .85; }
+
+label { display: block; font-weight: 600; margin: .9rem 0 .25rem; font-size: .9rem; }
+input, select {
+  width: 100%; padding: .7rem .85rem; font-size: 1rem; font-family: inherit;
+  border: 1px solid var(--line); border-radius: 12px; background: #fff; color: var(--ink);
+}
+input:focus, select:focus { outline: 2px solid var(--burgundy-2); border-color: var(--burgundy-2); }
+button, .btn {
+  margin-top: 1rem; padding: .75rem 1.4rem; border: none; border-radius: 999px;
+  background: var(--burgundy); color: #fff; font-size: 1rem; font-weight: 600; font-family: inherit; cursor: pointer;
+}
+button:hover, .btn:hover { background: var(--burgundy-dark); }
+button.secondary { background: transparent; color: var(--burgundy); border: 1px solid var(--burgundy); }
+button.secondary:hover { background: var(--blush); }
+.row { display: grid; gap: .75rem; grid-template-columns: 1fr; }
+.result {
+  margin-top: 1.1rem; padding: .9rem 1.1rem; background: #f4f8f5;
+  border-left: 4px solid var(--ok); border-radius: 10px; word-break: break-word;
+}
+.result.error { background: #fbeff0; border-left-color: var(--err); color: var(--err); }
+.result:empty { display: none; }
+.note { color: var(--muted); font-size: .88rem; margin-top: .75rem; }
+.scroll { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; margin-top: .75rem; font-size: .92rem; }
+th, td { padding: .6rem .7rem; border-bottom: 1px solid var(--line); text-align: left; }
+th { background: var(--blush); color: var(--burgundy-dark); white-space: nowrap; }
+td.amt { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.split { display: grid; gap: 1.25rem; grid-template-columns: 1fr; }
+hr.soft { border: none; border-top: 1px solid var(--line); margin: 1.5rem 0; }
+
+/* ---------- responsive ---------- */
+@media (min-width: 720px) {
+  .banner { grid-template-columns: 150px 1fr 250px; padding: 2rem; }
+  .monogram { margin: 0; }
+  .row { grid-template-columns: 1fr 1fr; }
+  .assign-grid { grid-template-columns: 1fr 1fr; }
+  .split { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 480px) {
+  .topcard { flex-direction: column; text-align: center; }
+  .card, .banner { padding: 1.1rem; }
+}

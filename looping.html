@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Assignment #3 – Looping</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+
+  <header class="pagehead">
+    <a class="back" href="index.html">← Back to Home</a>
+    <h1>Assignment #3 – Looping</h1>
+    <p>Factorial (While Loop), Sum (Do While Loop) and Average (For Loop) of the first n natural numbers</p>
+  </header>
+
+  <section class="card">
+    <label for="loopN">Enter n (a positive whole number)</label>
+    <input type="number" id="loopN" min="1" step="1" placeholder="e.g. 5">
+
+    <hr class="soft">
+
+    <h3>1. The nth Factorial (While Loop)</h3>
+    <button id="factBtn">Compute n!</button>
+    <div class="result" id="factResult"></div>
+
+    <hr class="soft">
+
+    <h3>2. The Sum of the first n numbers (Do While Loop)</h3>
+    <button id="sumBtn">Compute Sum</button>
+    <div class="result" id="sumResult"></div>
+
+    <hr class="soft">
+
+    <h3>3. The Average of the first n numbers (For Loop)</h3>
+    <button id="avgBtn">Compute Average</button>
+    <div class="result" id="avgResult"></div>
+  </section>
+
+</div>
+
+<script src="common.js"></script>
+<script>
+  const getPositiveInt = () => {
+    const n = Number($("loopN").value);
+    return Number.isInteger(n) && n >= 1 ? n : null;
+  };
+
+  // 1. Factorial using a WHILE loop (BigInt keeps large results exact)
+  $("factBtn").addEventListener("click", () => {
+    const n = getPositiveInt();
+    if (n === null) return show("factResult", "Please enter a positive whole number.", true);
+    if (n > 500) return show("factResult", "Please use n up to 500.", true);
+    let factorial = 1n;
+    let i = 1n;
+    while (i <= BigInt(n)) {
+      factorial *= i;
+      i++;
+    }
+    show("factResult", `${n}! = <strong>${factorial.toString()}</strong>`);
+  });
+
+  // 2. Sum using a DO WHILE loop
+  $("sumBtn").addEventListener("click", () => {
+    const n = getPositiveInt();
+    if (n === null) return show("sumResult", "Please enter a positive whole number.", true);
+    let sum = 0;
+    let i = 1;
+    do {
+      sum += i;
+      i++;
+    } while (i <= n);
+    show("sumResult", `1 + 2 + ... + ${n} = <strong>${sum}</strong>`);
+  });
+
+  // 3. Average using a FOR loop
+  $("avgBtn").addEventListener("click", () => {
+    const n = getPositiveInt();
+    if (n === null) return show("avgResult", "Please enter a positive whole number.", true);
+    let sum = 0;
+    for (let i = 1; i <= n; i++) {
+      sum += i;
+    }
+    show("avgResult", `Average of the first ${n} numbers = <strong>${sum / n}</strong>`);
+  });
+</script>
+</body>
+</html>

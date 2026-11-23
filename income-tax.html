@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Assignment #2 – Income Tax Calculator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+
+  <header class="pagehead">
+    <a class="back" href="index.html">← Back to Home</a>
+    <h1>Assignment #2 – Income Tax Calculator</h1>
+    <p>Input the taxable income and compute the income tax.</p>
+  </header>
+
+  <section class="card">
+    <label for="taxIncome">Taxable Income (₱)</label>
+    <input type="number" id="taxIncome" min="0" step="any" placeholder="e.g. 320000">
+    <button id="taxBtn">Compute Income Tax</button>
+    <div class="result" id="taxResult"></div>
+
+    <hr class="soft">
+    <p class="note" style="margin-top:0">Income Tax = Basic Tax + Rate (of the excess over the bracket's lower limit)</p>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Over</th><th>But not over</th><th>Basic tax + rate</th></tr></thead>
+        <tbody>
+          <tr><td>–</td><td>₱250,000</td><td>0%</td></tr>
+          <tr><td>₱250,000</td><td>₱400,000</td><td>20% of the excess over ₱250,000</td></tr>
+          <tr><td>₱400,000</td><td>₱800,000</td><td>₱30,000 + 25% of the excess over ₱400,000</td></tr>
+          <tr><td>₱800,000</td><td>₱2,000,000</td><td>₱130,000 + 30% of the excess over ₱800,000</td></tr>
+          <tr><td>₱2,000,000</td><td>₱8,000,000</td><td>₱490,000 + 32% of the excess over ₱2,000,000</td></tr>
+          <tr><td>₱8,000,000</td><td>–</td><td>₱2,410,000 + 35% of the excess over ₱8,000,000</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+</div>
+
+<script src="common.js"></script>
+<script>
+  const computeTax = (income) => {
+    if (income <= 250000)  return 0;
+    if (income <= 400000)  return (income - 250000) * 0.20;
+    if (income <= 800000)  return 30000 + (income - 400000) * 0.25;
+    if (income <= 2000000) return 130000 + (income - 800000) * 0.30;
+    if (income <= 8000000) return 490000 + (income - 2000000) * 0.32;
+    return 2410000 + (income - 8000000) * 0.35;
+  };
+
+  $("taxBtn").addEventListener("click", () => {
+    const raw = $("taxIncome").value;
+    const income = Number(raw);
+    if (raw === "" || income < 0) return show("taxResult", "Please enter a valid income (0 or more).", true);
+    const tax = computeTax(income);
+    show("taxResult", `
+      Taxable Income: <strong>${peso(income)}</strong><br>
+      Income Tax: <strong>${peso(tax)}</strong>`);
+  });
+</script>
+</body>
+</html>

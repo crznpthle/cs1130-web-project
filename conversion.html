@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Assignment #1 – Conversion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+
+  <header class="pagehead">
+    <a class="back" href="index.html">← Back to Home</a>
+    <h1>Assignment #1 – Conversion</h1>
+    <p>Celsius to Fahrenheit, Fahrenheit to Celsius, Meters to Feet, Feet to Meters</p>
+  </header>
+
+  <section class="card">
+    <label for="convType">Conversion type</label>
+    <select id="convType">
+      <option value="c2f">Celsius to Fahrenheit</option>
+      <option value="f2c">Fahrenheit to Celsius</option>
+      <option value="m2ft">Meters to Feet</option>
+      <option value="ft2m">Feet to Meters</option>
+    </select>
+
+    <label for="convValue">Value</label>
+    <input type="number" id="convValue" step="any" placeholder="Enter a number">
+
+    <button id="convBtn">Convert</button>
+    <div class="result" id="convResult"></div>
+  </section>
+
+</div>
+
+<script src="common.js"></script>
+<script>
+  const conversions = {
+    c2f:  { fn: (v) => (v * 9) / 5 + 32,   label: (v, r) => `${v} °C = ${r} °F` },
+    f2c:  { fn: (v) => ((v - 32) * 5) / 9, label: (v, r) => `${v} °F = ${r} °C` },
+    m2ft: { fn: (v) => v * 3.28084,        label: (v, r) => `${v} meters = ${r} feet` },
+    ft2m: { fn: (v) => v / 3.28084,        label: (v, r) => `${v} feet = ${r} meters` },
+  };
+
+  $("convBtn").addEventListener("click", () => {
+    const raw = $("convValue").value;
+    if (raw === "") return show("convResult", "Please enter a number.", true);
+    const value = Number(raw);
+    const { fn, label } = conversions[$("convType").value];
+    const result = Number(fn(value).toFixed(4));
+    show("convResult", `<strong>${label(value, result)}</strong>`);
+  });
+</script>
+</body>
+</html>
